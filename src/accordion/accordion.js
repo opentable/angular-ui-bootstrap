@@ -1,4 +1,4 @@
-angular.module('ui.bootstrap.accordion', ['ui.bootstrap.collapse'])
+angular.module('gui-accordion', ['ui.bootstrap.collapse'])
 
 .constant('accordionConfig', {
   closeOthers: true
@@ -43,24 +43,24 @@ angular.module('ui.bootstrap.accordion', ['ui.bootstrap.collapse'])
 
 // The accordion directive simply sets up the directive controller
 // and adds an accordion CSS class to itself element.
-.directive('accordion', function () {
+.directive('guiAccordion', function () {
   return {
     restrict:'EA',
     controller:'AccordionController',
     transclude: true,
     replace: false,
-    templateUrl: 'template/accordion/accordion.html'
+    template: require('./html/gui-accordion.html')
   };
 })
 
 // The accordion-group directive indicates a block of html that will expand and collapse in an accordion
-.directive('accordionGroup', function() {
+.directive('guiAccordionGroup', function() {
   return {
-    require:'^accordion',         // We need this directive to be inside an accordion
+    require:'^guiAccordion',         // We need this directive to be inside an accordion
     restrict:'EA',
     transclude:true,              // It transcludes the contents of the directive into the template
     replace: true,                // The element containing the directive will be replaced with the template
-    templateUrl:'template/accordion/accordion-group.html',
+    template: require('./html/gui-accordion-group.html'),
     scope: {
       heading: '@',               // Interpolate the heading attribute onto this scope
       isOpen: '=?',
@@ -93,18 +93,18 @@ angular.module('ui.bootstrap.accordion', ['ui.bootstrap.collapse'])
 // <accordion-group>
 //   <accordion-heading>Heading containing HTML - <img src="..."></accordion-heading>
 // </accordion-group>
-.directive('accordionHeading', function() {
+.directive('guiAccordionHeading', function() {
   return {
     restrict: 'EA',
     transclude: true,   // Grab the contents to be used as the heading
     template: '',       // In effect remove this element!
     replace: true,
-    require: '^accordionGroup',
+    require: '^guiAccordionGroup',
     link: function(scope, element, attr, accordionGroupCtrl, transclude) {
       // Pass the heading to the accordion-group controller
       // so that it can be transcluded into the right place in the template
       // [The second parameter to transclude causes the elements to be cloned so that they work in ng-repeat]
-      accordionGroupCtrl.setHeading(transclude(scope, angular.noop));
+      accordionGroupCtrl.setHeading(transclude(scope, function() {}));
     }
   };
 })
@@ -117,7 +117,7 @@ angular.module('ui.bootstrap.accordion', ['ui.bootstrap.collapse'])
 // </div>
 .directive('accordionTransclude', function() {
   return {
-    require: '^accordionGroup',
+    require: '^guiAccordionGroup',
     link: function(scope, element, attr, controller) {
       scope.$watch(function() { return controller[attr.accordionTransclude]; }, function(heading) {
         if ( heading ) {
