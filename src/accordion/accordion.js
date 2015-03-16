@@ -49,7 +49,7 @@ angular.module('gui-accordion', ['ui.bootstrap.collapse'])
     controller:'AccordionController',
     transclude: true,
     replace: false,
-    template: require('./html/gui-accordion.html')
+    templateUrl: './html/gui-accordion.html'
   };
 })
 
@@ -60,7 +60,7 @@ angular.module('gui-accordion', ['ui.bootstrap.collapse'])
     restrict:'EA',
     transclude:true,              // It transcludes the contents of the directive into the template
     replace: true,                // The element containing the directive will be replaced with the template
-    template: require('./html/gui-accordion-group.html'),
+    templateUrl: './html/gui-accordion-group.html',
     scope: {
       heading: '@',               // Interpolate the heading attribute onto this scope
       isOpen: '=?',
