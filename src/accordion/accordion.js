@@ -100,6 +100,7 @@ angular.module('gui-accordion', ['ui.bootstrap.collapse'])
     template: '',       // In effect remove this element!
     replace: true,
     require: '^guiAccordionGroup',
+    scope: true,
     link: function(scope, element, attr, accordionGroupCtrl, transclude) {
       // Pass the heading to the accordion-group controller
       // so that it can be transcluded into the right place in the template
