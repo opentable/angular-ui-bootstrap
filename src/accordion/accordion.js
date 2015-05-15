@@ -49,7 +49,7 @@ angular.module('gui-accordion', ['ui.bootstrap.collapse'])
     controller:'AccordionController',
     transclude: true,
     replace: false,
-    template: require('../../template/accordion/accordion.html')
+    template: '<div class="panel-group" ng-transclude></div>'
   };
 })
 
@@ -60,7 +60,17 @@ angular.module('gui-accordion', ['ui.bootstrap.collapse'])
     restrict:'EA',
     transclude:true,              // It transcludes the contents of the directive into the template
     replace: true,                // The element containing the directive will be replaced with the template
-    template: require('../../template/accordion/accordion-group.html'),
+    template: [
+    '<div class="panel panel-default">',
+      '<div class="panel-heading">',
+        '<h4 class="panel-title align-center">',
+          "<a href class=\"accordion-toggle\" ng-click=\"toggleOpen()\" accordion-transclude=\"heading\"><span ng-class=\"{'text-muted': isDisabled}\">{{heading}}</span></a>",
+        '</h4>',
+      '</div>',
+      '<div class="panel-collapse" collapse="!isOpen">',
+        '<div class="panel-body" ng-transclude></div>',
+      '</div>',
+    '</div>'].join(''),
     scope: {
       heading: '@',               // Interpolate the heading attribute onto this scope
       isOpen: '=?',
